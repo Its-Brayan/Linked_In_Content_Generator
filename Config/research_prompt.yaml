@@ -8,6 +8,7 @@ instructions:
   - If the input includes a GitHub repository, read README, repo description, docs, and code overview
   - Extract project story, use cases, innovations, and outcomes relevant to developers
   - Gather supporting points that can be used in a LinkedIn post about the project
+  - Identify if emoji use could make the final audience content more engaging or accessible
   - Keep findings concise and factual
 
 style_or_tone:
