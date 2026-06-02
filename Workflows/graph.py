@@ -1,6 +1,7 @@
 
 import os
 import sys
+
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import asyncio
 sys.path.insert(0,ROOT_DIR)
@@ -19,7 +20,7 @@ planner = PlannerAgent()
 researcher = ResearcherAgent()
 Reviewer = ReviewAgent()
 writer = WriterAgent()
-session = asyncio.run(connect_to_github_mcp())
+
 DEFAULT_AUDIENCES = ["LinkedIn", "developers", "non-developers"]
 class AiContentTeam(TypedDict):
     query: str
@@ -27,7 +28,7 @@ class AiContentTeam(TypedDict):
     research: dict
     draft: str
     review: str
-    session: str
+    mcp_session: ClientSession
     audiences: list[str]
 
 def planner_node(state:AiContentTeam) -> AiContentTeam:
@@ -42,7 +43,7 @@ async def researcher_node(state:AiContentTeam) -> AiContentTeam:
 
     print(f"researching about: {state['query']}")
     query = extract_github_url(state['query'])
-    agent_research = await researcher.research_agent(state['session'],query)
+    agent_research = await researcher.research_agent(state['mcp_session'],query)
     result = {
          "readme":agent_research['readme'],
          "tree":agent_research['tree']
@@ -123,7 +124,7 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                     'research':{},
                     'draft' : '',
                     'review': '',
-                    'session': session,
+                    'mcp_session': session,
                     'audiences': audiences
                 })
                  print(f"\n{'='*60}")
@@ -132,12 +133,12 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                 
                  return result
 
-if __name__ == '__main__':
-      # Test the pipeline
-    response = asyncio.run(run_pipeline(
-        "Explain this project and create audience-aware content for the provided link: https://github.com/Its-Brayan/Research_Assistant.git?",
-        ["developers", "non-developers"]
-    ))
-    print(response)
+# if __name__ == '__main__':
+#       # Test the pipeline
+#     response = asyncio.run(run_pipeline(
+#         "Explain this project and create audience-aware content for the provided link: https://github.com/Its-Brayan/Research_Assistant.git?",
+#         ["developers", "non-developers"]
+#     ))
+#     print(response)
     
  
