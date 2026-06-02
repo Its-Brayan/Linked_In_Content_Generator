@@ -18,7 +18,7 @@ repo_url = st.text_input(
 audiences = st.multiselect(
     "Target Audiences",
      ["developers", "non-developers", "LinkedIn"],
-     default=['Developers','Non Developers']
+     default=['developers','non-developers']
 )
 if st.button("Generate Content"):
 
