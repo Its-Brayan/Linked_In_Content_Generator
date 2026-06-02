@@ -1,4 +1,3 @@
-from tavily import TavilyClient
 from dotenv import load_dotenv
 from groq import AsyncGroq
 import os
@@ -9,9 +8,6 @@ from urllib.parse import urlparse
 import re
 load_dotenv()
 
-client = TavilyClient(
-    api_key=os.getenv('TAVILY_API_KEY')
-)
 
 def extract_github_url(text: str):
    match = re.search(r"github\.com/([\w\-]+)/([\w\-\.]+)", text.strip())
