@@ -3,7 +3,6 @@ import streamlit as st
 import asyncio
 import subprocess
 import os
-from groq import RateLimitError
 st.set_page_config(
     page_title="Linked In Content Generator",
      page_icon="🚀",
@@ -80,7 +79,7 @@ if st.button("Generate Content"):
 
             rl = _find_rate_limit(e)
             if rl is not None:
-                st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again in a few minutes.")
+                st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again Tomorrow.")
                 with st.expander("View detailed error"):
                     st.write(rl)
             else:
