@@ -120,7 +120,9 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                
                  
                  graph = run_graph()
-                 result = await graph.ainvoke({
+                 result =
+                 try:
+                     await graph.ainvoke({
                     'query':query,
                     'plan': '',
                     'research':{},

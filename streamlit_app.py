@@ -43,19 +43,19 @@ if st.button("Generate Content"):
             # Catch-all for any other workflow errors (e.g., bad Github URL, tool failure)
             st.error("An unexpected error occurred during generation.")
             st.exception(e)
-    st.success("Done!")
+     st.success("Done!")
 
-    st.subheader("Plan")
-    st.write(result['plan'])
+     st.subheader("Plan")
+     st.write(result['plan'])
 
     # st.subheader("Research")
     # st.json(result['research'])
 
-    st.subheader("Draft")
-    st.markdown(result['draft'])
+     st.subheader("Draft")
+     st.markdown(result['draft'])
 
-    st.subheader("Review")
-    st.markdown(result['review'])
+     st.subheader("Review")
+     st.markdown(result['review'])
 
 @st.cache_resource
 def start_mcp_server():
