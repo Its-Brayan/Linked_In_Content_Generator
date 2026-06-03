@@ -3,7 +3,7 @@ import os
 import sys
 import shutil
 print("NPX",shutil.which("npx"))
-print("NODE",shutil.which("node"))
+print("NODE",shutil.which())
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import asyncio
 sys.path.insert(0,ROOT_DIR)
@@ -120,9 +120,7 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                
                  
                  graph = run_graph()
-                 result =
-                 try:
-                     await graph.ainvoke({
+                 result = await graph.ainvoke({
                     'query':query,
                     'plan': '',
                     'research':{},
