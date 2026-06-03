@@ -110,17 +110,17 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
     )
 
 
-     async with stdio_client(server_params) as (read,write):
-         print("Transport (stdio) connected")
-         async with ClientSession(read,write) as session:
+     try:
+         async with stdio_client(server_params) as (read,write):
+             print("Transport (stdio) connected")
+             async with ClientSession(read,write) as session:
                  print("Session created")
                  await session.initialize()
                  print("MCP initialized successfully")
 
                  tools = await session.list_tools()
                  print("TOOLS",tools)
-               
-                 
+
                  graph = run_graph()
                  result = await graph.ainvoke({
                     'query':query,
@@ -134,8 +134,24 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                  print(f"\n{'='*60}")
                  print(f"Pipeline Complete")
                  print(f"{'='*60}\n")
-                
+
                  return result
+     except BaseException as exc:
+         # Print a detailed traceback and any nested exceptions from BaseExceptionGroup
+         import traceback
+
+         print("Pipeline failed with exception:", repr(exc))
+         traceback.print_exc()
+         if hasattr(exc, 'exceptions'):
+             print("Nested exceptions:")
+             for i, sub in enumerate(exc.exceptions):
+                 print(f"--- Sub-exception {i} ---")
+                 try:
+                     traceback.print_exception(type(sub), sub, sub.__traceback__)
+                 except Exception:
+                     print(repr(sub))
+         # Re-raise so callers still observe failure
+         raise
          
 
 # if __name__ == '__main__':
