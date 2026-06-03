@@ -1,7 +1,9 @@
 
 import os
 import sys
-
+import shutil
+print("NPX",shutil.which("npx"))
+print("NODE",shutil.which("node"))
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import asyncio
 sys.path.insert(0,ROOT_DIR)
