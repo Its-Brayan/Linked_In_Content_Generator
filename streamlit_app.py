@@ -3,6 +3,7 @@ import streamlit as st
 import asyncio
 import subprocess
 import os
+from groq import RateLimitError
 st.set_page_config(
     page_title="Linked In Content Generator",
      page_icon="🚀",
@@ -57,7 +58,6 @@ if st.button("Generate Content"):
      except Exception as e:
             # Catch-all for any other workflow errors (e.g., bad Github URL, tool failure)
             # Detect RateLimitError nested inside BaseExceptionGroup or other wrappers
-            from groq import RateLimitError
 
             def _find_rate_limit(exc):
                 if isinstance(exc, RateLimitError):
