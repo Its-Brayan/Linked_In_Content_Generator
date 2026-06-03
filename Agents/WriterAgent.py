@@ -20,7 +20,7 @@ class WriterAgent:
             f"Plan:\n{plan}"
         )
 
-        llm = get_llm('llama-3.3-70b-versatile')
+        llm = get_llm('llama-3.1-8b-instant')
         config = load_prompt(WRITER_PROMPT)
         prompt = build_prompt_body(config, input_string)
         result = llm.invoke(prompt)

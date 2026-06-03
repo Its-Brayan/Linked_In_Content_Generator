@@ -13,7 +13,7 @@ class PlannerAgent:
         audience_list = ", ".join(audiences)
         prompt_input = f"Audiences: {audience_list}\n\nUser request:\n{query}"
 
-        llm = get_llm('llama-3.3-70b-versatile')
+        llm = get_llm('llama-3.1-8b-instant')
         config = load_prompt(PLANNER_PROMPT)
         prompt = build_prompt_body(config, prompt_input)
         result = llm.invoke(prompt)
