@@ -35,7 +35,7 @@ if st.button("Generate Content"):
     st.success("Done!")
 
     st.subheader("Plan")
-    st.write(result['Plan'])
+    st.write(result['plan'])
 
     st.subheader("Research")
     st.json(result['research'])
