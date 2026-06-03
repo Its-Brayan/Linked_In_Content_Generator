@@ -25,9 +25,11 @@ if st.button("Generate Content"):
 
     if not repo_url:
         st.error("Pleae enter a repository URL")
+        st.session_state.running = False
     
     else:
      try:
+        st.session_state.running = True
         st.spinner("Analyzing repository...")
     
         result = asyncio.run(
@@ -58,15 +60,7 @@ if st.button("Generate Content"):
             st.error("An unexpected error occurred during generation.")
             st.exception(e)
 
-if "running" not in st.session_state:
-    st.session_state.running = False
 
-if st.button("Generate Content") and not st.session_state.running:
-    st.session_state.running = True
-    try:
-        result = asyncio.run(run_pipeline(repo_url, audiences))
-    finally:
-        st.session_state.running = False
 # @st.cache_resource
 # def start_mcp_server():
 #     env = os.environ.copy()
