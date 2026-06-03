@@ -79,7 +79,7 @@ if st.button("Generate Content"):
 
             rl = _find_rate_limit(e)
             if rl is not None:
-                st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again Tomorrow.")
+                st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again after sometime.")
                
             else:
                 st.error("An unexpected error occurred during generation.")
