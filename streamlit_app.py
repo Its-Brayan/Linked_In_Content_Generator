@@ -57,8 +57,35 @@ if st.button("Generate Content"):
                 st.write(e)
      except Exception as e:
             # Catch-all for any other workflow errors (e.g., bad Github URL, tool failure)
-            st.error("An unexpected error occurred during generation.")
-            st.exception(e)
+            # Detect RateLimitError nested inside BaseExceptionGroup or other wrappers
+            from groq import RateLimitError
+
+            def _find_rate_limit(exc):
+                if isinstance(exc, RateLimitError):
+                    return exc
+                # BaseExceptionGroup and similar may expose .exceptions
+                if hasattr(exc, 'exceptions') and exc.exceptions:
+                    for sub in exc.exceptions:
+                        found = _find_rate_limit(sub)
+                        if found:
+                            return found
+                # Follow __cause__ and __context__ chains
+                for attr in ('__cause__', '__context__'):
+                    sub = getattr(exc, attr, None)
+                    if sub:
+                        found = _find_rate_limit(sub)
+                        if found:
+                            return found
+                return None
+
+            rl = _find_rate_limit(e)
+            if rl is not None:
+                st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again in a few minutes.")
+                with st.expander("View detailed error"):
+                    st.write(rl)
+            else:
+                st.error("An unexpected error occurred during generation.")
+                st.exception(e)
 
 
 # @st.cache_resource
