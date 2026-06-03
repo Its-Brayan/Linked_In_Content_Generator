@@ -134,6 +134,7 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
                  print(f"{'='*60}\n")
                 
                  return result
+         
 
 # if __name__ == '__main__':
 #       # Test the pipeline
