@@ -91,6 +91,10 @@ def run_graph() -> StateGraph:
 
     return workflow.compile()
 
+mcp_env = os.environ.copy()
+
+# 2. Add your token to the copy
+mcp_env["GITHUB_PERSONAL_ACCESS_TOKEN"] = os.getenv("ACCESS_TOKEN", "")
 async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
      """Execute the complete pipeline"""
      audiences = audiences or DEFAULT_AUDIENCES
@@ -102,9 +106,7 @@ async def run_pipeline(query: str, audiences: list[str] | None = None) -> dict:
      server_params = StdioServerParameters(
        command="npx",
             args=["-y", "@modelcontextprotocol/server-github"],
-            env={
-                "GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("ACCESS_TOKEN")
-            }
+            env=mcp_env
     )
 
 
