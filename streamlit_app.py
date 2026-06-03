@@ -3,7 +3,7 @@ import streamlit as st
 import asyncio
 import subprocess
 import os
-
+from groq import RateLimitError
 st.set_page_config(
     page_title="Linked In Content Generator",
      page_icon="🚀",
@@ -25,7 +25,9 @@ if st.button("Generate Content"):
 
     if not repo_url:
         st.error("Pleae enter a repository URL")
+    
     else:
+     try:
         st.spinner("Analyzing repository...")
     
         result = asyncio.run(
@@ -33,6 +35,14 @@ if st.button("Generate Content"):
                 repo_url,audiences
             )
         )
+     except RateLimitError as e:
+        st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again in a few minutes.")
+        with st.expander("View detailed error"):
+                st.write(e)
+     except Exception as e:
+            # Catch-all for any other workflow errors (e.g., bad Github URL, tool failure)
+            st.error("An unexpected error occurred during generation.")
+            st.exception(e)
     st.success("Done!")
 
     st.subheader("Plan")
