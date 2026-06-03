@@ -35,6 +35,20 @@ if st.button("Generate Content"):
                 repo_url,audiences
             )
         )
+    
+        st.success("Done!")
+
+        st.subheader("Plan")
+        st.write(result['plan'])
+
+    # st.subheader("Research")
+    # st.json(result['research'])
+
+        st.subheader("Draft")
+        st.markdown(result['draft'])
+
+        st.subheader("Review")
+        st.markdown(result['review'])
      except RateLimitError as e:
         st.error("🚨 **Rate Limit Exceeded:** The AI provider is currently out of tokens. Please try again in a few minutes.")
         with st.expander("View detailed error"):
@@ -43,19 +57,6 @@ if st.button("Generate Content"):
             # Catch-all for any other workflow errors (e.g., bad Github URL, tool failure)
             st.error("An unexpected error occurred during generation.")
             st.exception(e)
-     st.success("Done!")
-
-     st.subheader("Plan")
-     st.write(result['plan'])
-
-    # st.subheader("Research")
-    # st.json(result['research'])
-
-     st.subheader("Draft")
-     st.markdown(result['draft'])
-
-     st.subheader("Review")
-     st.markdown(result['review'])
 
 @st.cache_resource
 def start_mcp_server():
