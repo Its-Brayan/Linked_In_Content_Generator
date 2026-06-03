@@ -1,7 +1,8 @@
 from Workflows.graph import run_pipeline
 import streamlit as st
 import asyncio
-
+import subprocess
+import os
 
 st.set_page_config(
     page_title="Linked In Content Generator",
@@ -45,3 +46,22 @@ if st.button("Generate Content"):
 
     st.subheader("Review")
     st.markdown(result['review'])
+
+@st.cache_resource
+def start_mcp_server():
+    env = os.environ.copy()
+    env['npm_config_cache'] ="/tmp/.npm"
+    process = subprocess.Popen(
+        ["npx", "-y", "@modelcontextprotocol/server-github"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        env=env
+    )
+    return process
+
+# Initialize your server
+mcp_process = start_mcp_server()
+
+st.success("MCP Server is running in the background!")
